@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const verifyToken = require('../middlewares/verify-token')
 const { Comment } = require('../models')
 
+router.use(verifyToken);
 // Add all the CRUD features bellow
 router.get('/', async (req, res) => {
   try {
