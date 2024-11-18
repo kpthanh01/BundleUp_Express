@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const deals = await Deal.find({})
-      .populate('author', 'name email') 
       .sort({ createdAt: 'descending' }); 
     res.status(200).json(deals);
   } catch (error) {
@@ -34,7 +33,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:dealId', async (req, res) => {
   try {
-    const deal = await Deal.findById(req.params.dealId).populate('author', 'name email');
+    const deal = await Deal.findById(req.params.dealId)
     if (!deal) {
       return res.status(404).json({ message: 'Deal not found' });
     }
