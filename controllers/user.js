@@ -43,10 +43,13 @@ router.post('/signin', async (req, res) => {
 router.delete("/:userId", async (req, res) => {
     try {
         const deletedUser = await User.findByIdAndDelete(req.params.userId)
-        if (!deletedUser) {
-            res.status(404)
-            throw new Error("User not found")
-          }
+        const user = await User.findOne({ username: req.body.username })
+        if (user && bcrypt.compareSync(req.body.password, user.hashedPassword)) {
+            const token = jwt.sign({ username: user.username, _id: user._id }, process.env.JWT_SECRET);
+            res.status(200).json({ token });
+        } else {
+            res.status(401).json({ error: 'Invalid username or password.' })
+        }
         res.status(200).json(deletedUser)
     }
     catch (error) {
@@ -61,10 +64,13 @@ router.put("/:userId", async (req, res) => {
         req.body,
         { new: true }
       )
-      if (!updatedUser) {
-        res.status(404)
-        throw new Error("User not found")
-      }
+      const user = await User.findOne({ username: req.body.username })
+      if (user && bcrypt.compareSync(req.body.password, user.hashedPassword)) {
+        const token = jwt.sign({ username: user.username, _id: user._id }, process.env.JWT_SECRET);
+        res.status(200).json({ token });
+    } else {
+        res.status(401).json({ error: 'Invalid username or password.' })
+    }
       res.status(200).json(updatedUser)
     } catch (error) {
       res.status(500).json(error)
