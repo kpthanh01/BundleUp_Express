@@ -7,8 +7,6 @@ const bodyParser = require("body-parser");
 const db = require("./db");
 const eventsRouter = require("./controllers/event");
 const userRouter = require("./controllers/user")
-
-// Import the controllers below
 const commentRouter = require('./controllers/comment')
 
 const PORT = process.env.PORT || 3000;
