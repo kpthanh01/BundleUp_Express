@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Deal = require('../models/deal'); // Import the Deal model
 
-// Controller to create a new deal
 const createDeal = async (req, res) => {
   try {
     const { author, description, bundle_number, category, joined_users, comments } = req.body;
@@ -23,7 +22,6 @@ const createDeal = async (req, res) => {
   }
 };
 
-// Controller to fetch all deals
 const getAllDeals = async (req, res) => {
   try {
     const deals = await Deal.find()
@@ -36,7 +34,6 @@ const getAllDeals = async (req, res) => {
   }
 };
 
-// Controller to fetch a single deal by ID
 const getDealById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -55,7 +52,6 @@ const getDealById = async (req, res) => {
   }
 };
 
-// Controller to update a deal
 const updateDeal = async (req, res) => {
   try {
     const { id } = req.params;
@@ -73,7 +69,6 @@ const updateDeal = async (req, res) => {
   }
 };
 
-// Controller to delete a deal
 const deleteDeal = async (req, res) => {
   try {
     const { id } = req.params;
@@ -90,7 +85,6 @@ const deleteDeal = async (req, res) => {
   }
 };
 
-// Export all controllers
 module.exports = {
   createDeal,
   getAllDeals,
