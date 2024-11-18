@@ -2,7 +2,7 @@ const express = require("express");
 const verifyToken = require("../middlewares/verify-token.js");
 const router = express.Router();
 //import the model
-const Event = require("../models/event.js");
+const { Event } = require("../models");
 
 // Add all the CRUD features bellow
 // router.use(verifyToken);
