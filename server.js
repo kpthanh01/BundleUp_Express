@@ -8,8 +8,8 @@ const db = require("./db");
 const eventsRouter = require("./controllers/event");
 const userRouter = require("./controllers/user")
 const commentRouter = require('./controllers/comment')
-
-const PORT = process.env.PORT || 3000;
+const dealRouter = require('./controllers/deal')
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(cors());
@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use('/comments', commentRouter)
 app.use("/events", eventsRouter);
 app.use("/users", userRouter)
+app.use("/deals", dealRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
