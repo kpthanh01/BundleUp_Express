@@ -6,6 +6,7 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const db = require("./db");
 const eventsRouter = require("./controllers/event");
+const userRouter = require("./controllers/user")
 
 // Import the controllers below
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 // Add the Routers below
 app.use("/events", eventsRouter);
+app.use("/users", userRouter)
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
