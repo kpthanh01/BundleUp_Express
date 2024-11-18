@@ -3,7 +3,7 @@ const router = express.Router();
 const Deal = require('../models/deal'); 
 
 const verifyToken = require('../middleware/verifyToken'); 
-router.use(verifyToken);
+// router.use(verifyToken);
 
 
 router.post('/', async (req, res) => {

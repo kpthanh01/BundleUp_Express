@@ -4,8 +4,19 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
+const verifyToken = require('../middlewares/verifyToken'); 
+// router.use(verifyToken);
 
 const SALT_LENGTH = 12;
+
+router.get('/', async (req, res) => {
+    try {
+        const allUsers = await User.find({})
+        res.status(200).json(allUsers)
+      } catch (error) {
+        res.status(500).json({ error: error.message })
+      }
+})
 
 router.post('/signup', async (req, res) => {
     console.log(req.body)
