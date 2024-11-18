@@ -3,8 +3,8 @@ const router = express.Router()
 const verifyToken = require('../middlewares/verify-token')
 const { Comment } = require('../models')
 
-router.use(verifyToken);
-// Add all the CRUD features bellow
+// router.use(verifyToken);
+
 router.get('/', async (req, res) => {
   try {
     const allComments = await Comment.find({})
@@ -24,8 +24,7 @@ router.get('/:commentId', async (req, res) => {
     res.status(200).json(findComment)
   } catch (error) {
     if (res.statusCode === 404) {
-      res.json({ error: error.message }
-      )
+      res.json({ error: error.message })
     } else {
       res.status(500).json({ error: error.message })
     }
