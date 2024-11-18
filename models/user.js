@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const { Schema } = require('mongoose')
 
-const userSchema = mongoose.Schema({
+const User = new Schema({
     username: {
       type: String,
       unique: true,
@@ -29,13 +29,14 @@ const userSchema = mongoose.Schema({
     type: {
         type: String,
         required: true,
+        enum: ["Individual", "Vendor"]
     },
   })
 
-  userSchema.set('toJSON', {
+  User.set('toJSON', {
     transform: (document, returnedObject) => {
         delete returnedObject.hashedPassword
     }
 })
   
-module.exports = mongoose.model('User', userSchema)
+module.exports = User
