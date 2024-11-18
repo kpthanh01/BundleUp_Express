@@ -1,96 +1,76 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 const Deal = require('../models/deal'); 
 
-const createDeal = async (req, res) => {
+const verifyToken = require('../middleware/verifyToken'); 
+router.use(verifyToken);
+
+
+router.post('/', async (req, res) => {
   try {
-    const { author, description, bundle_number, category, joined_users, comments } = req.body;
-
-    const newDeal = new Deal({
-      author,
-      description,
-      bundle_number,
-      category,
-      joined_users,
-      comments,
-    });
-
-    const savedDeal = await newDeal.save();
-    res.status(201).json({ message: 'Deal created successfully', deal: savedDeal });
+    
+    req.body.author = req.user._id; 
+    const deal = await Deal.create(req.body); 
+    res.status(201).json(deal);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Failed to create deal', error: error.message });
   }
-};
+});
 
-const getAllDeals = async (req, res) => {
+
+router.get('/', async (req, res) => {
   try {
-    const deals = await Deal.find()
-      .populate('author', 'name email')
-      .populate('joined_users', 'name') 
-      .populate('comments'); 
+    const deals = await Deal.find({})
+      .populate('author', 'name email') 
+      .sort({ createdAt: 'descending' }); 
     res.status(200).json(deals);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Failed to fetch deals', error: error.message });
   }
-};
+});
 
-const getDealById = async (req, res) => {
+
+router.get('/:dealId', async (req, res) => {
   try {
-    const { id } = req.params;
-    const deal = await Deal.findById(id)
-      .populate('author', 'name email')
-      .populate('joined_users', 'name')
-      .populate('comments');
-
+    const deal = await Deal.findById(req.params.dealId).populate('author', 'name email');
     if (!deal) {
       return res.status(404).json({ message: 'Deal not found' });
     }
-
     res.status(200).json(deal);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Failed to fetch deal', error: error.message });
   }
-};
+});
 
-const updateDeal = async (req, res) => {
+
+router.put('/:dealId', async (req, res) => {
   try {
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    const updatedDeal = await Deal.findByIdAndUpdate(id, updatedData, { new: true });
-
-    if (!updatedDeal) {
+    const deal = await Deal.findByIdAndUpdate(req.params.dealId, req.body, { new: true });
+    if (!deal) {
       return res.status(404).json({ message: 'Deal not found' });
     }
-
-    res.status(200).json({ message: 'Deal updated successfully', deal: updatedDeal });
+    res.status(200).json(deal);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Failed to update deal', error: error.message });
   }
-};
+});
 
-const deleteDeal = async (req, res) => {
+
+router.delete('/:dealId', async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const deletedDeal = await Deal.findByIdAndDelete(id);
-
-    if (!deletedDeal) {
+    const deal = await Deal.findByIdAndDelete(req.params.dealId);
+    if (!deal) {
       return res.status(404).json({ message: 'Deal not found' });
     }
-
     res.status(200).json({ message: 'Deal deleted successfully' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Failed to delete deal', error: error.message });
   }
-};
+});
 
-module.exports = {
-  createDeal,
-  getAllDeals,
-  getDealById,
-  updateDeal,
-  deleteDeal,
-};
-
-module.exports = router
+module.exports = router;
