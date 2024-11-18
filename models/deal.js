@@ -2,9 +2,9 @@ const { Schema } = require('mongoose');
 
 const Deal = new Schema({
   author: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'User',
+    type: Schema.Types.ObjectId, 
+    required: true, 
+    ref: 'User', 
   },
   description: {
     type: String,
@@ -24,14 +24,14 @@ const Deal = new Schema({
   },
   joined_users: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      type: Schema.Types.ObjectId, 
+      ref: 'User', 
     },
   ],
   comments: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Comment',
+      ref: 'Comment', 
     },
   ],
 },
