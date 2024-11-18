@@ -3,7 +3,7 @@ const {Schema} = require('mongoose');
 // Define the schema for the Deal model
 const Deal = new Schema({
   author: {
-    type: mongoose.Schema.Types.ObjectId, 
+    type: Schema.Types.ObjectId, 
     required: true, 
     ref: 'User', 
   },
@@ -35,7 +35,7 @@ const Deal = new Schema({
   // Array of joined users (user IDs)
   joined_users: [
     {
-      type: mongoose.Schema.Types.ObjectId, 
+      type: Schema.Types.ObjectId, 
       ref: 'User', 
     },
   ],
@@ -43,7 +43,7 @@ const Deal = new Schema({
   // Array of comments (comment IDs)
   comments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Comment', 
     },
   ],
