@@ -1,15 +1,7 @@
-const mongoose = require('mongoose');
+const {Schema} = require('mongoose');
 
 // Define the schema for the Deal model
-const dealSchema = new mongoose.Schema({
-    // Title of the deal
-  deal_id: {
-    type: mongoose.Schema.Types.ObjectId, 
-    required: true, 
-    unique: true, 
-  },
-
-  
+const Deal = new Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId, 
     required: true, 
@@ -61,5 +53,5 @@ const dealSchema = new mongoose.Schema({
 dealSchema.set('timestamps', true);
 
 
-const Deal = mongoose.model('Deal', dealSchema);
+
 module.exports = Deal;
