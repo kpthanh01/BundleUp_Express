@@ -78,45 +78,4 @@ router.delete("/:eventId", async (req, res) => {
   }
 });
 
-router.post("/:eventId/comments", async (req, res) => {
-  try {
-    req.body.author = req.user._id;
-    const event = await Event.findById(req.params.eventId);
-    event.comments.push(req.body);
-    await event.save();
-
-    const newComment = event.comments[event.comments.length - 1];
-    newComment._doc.author = req.user;
-
-    res.status(201).json(newComment);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-//update comments
-router.put("/:eventId/comments/:commentId", async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.eventId);
-    const comment = event.comments.id(req.params.commentId);
-    comment.text = req.body.text;
-    await event.save();
-    res.status(200).json({ message: "Okay!" });
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-//delete comments
-router.delete("/:eventId/comments/:commentId", async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.eventId);
-    event.comments.remove({ _id: req.params.commentId });
-    await event.save();
-    res.status(200).json({ message: "Ok comment deleted" });
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
 module.exports = router;
