@@ -1,15 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const Deal = require('../models/deal'); 
+const {Deal} = require('../models'); 
 
-const verifyToken = require('../middleware/verifyToken'); 
-router.use(verifyToken);
+const verifyToken = require('../middlewares/verify-token'); 
+// router.use(verifyToken);
 
 
 router.post('/', async (req, res) => {
   try {
-    
-    req.body.author = req.user._id; 
     const deal = await Deal.create(req.body); 
     res.status(201).json(deal);
   } catch (error) {
