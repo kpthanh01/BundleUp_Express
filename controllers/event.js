@@ -5,7 +5,7 @@ const router = express.Router();
 const Event = require("../models/event.js");
 
 // Add all the CRUD features bellow
-router.use(verifyToken);
+// router.use(verifyToken);
 
 router.post("/", async (req, res) => {
   try {
@@ -22,8 +22,8 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const events = await Event.find({})
-      .populate("title")
-      .sort({ startDate: "descending" });
+      .populate("eventTitle")
+      .sort({ startDateTime: "descending" });
     res.status(200).json(events);
   } catch (error) {
     res.status(500).json(error);
@@ -45,9 +45,9 @@ router.put("/:eventId", async (req, res) => {
   try {
     const event = await Event.findById(req.params.eventId);
 
-    if (!event.author.equals(req.user._id)) {
-      return res.status(403).send(`You're not allowed to do that!`);
-    }
+    // if (!event.author.equals(req.user._id)) {
+    //   return res.status(403).send(`You're not allowed to do that!`);
+    // }
 
     const updatedEvent = await Event.findByIdAndUpdate(
       req.params.eventId,
@@ -55,7 +55,7 @@ router.put("/:eventId", async (req, res) => {
       { new: true }
     );
 
-    updatedEvent._doc.author = req.user;
+    // updatedEvent._doc.author = req.user;
 
     res.status(200).json(updatedEvent);
   } catch (error) {
@@ -67,9 +67,9 @@ router.delete("/:eventId", async (req, res) => {
   try {
     const event = await Event.findById(req.params.eventId);
 
-    if (!event.author.equals(req.user._id)) {
-      return res.status(403).send(`You're not allowed to do that!`);
-    }
+    // if (!event.author.equals(req.user._id)) {
+    //   return res.status(403).send(`You're not allowed to do that!`);
+    // }
 
     const deletedEvent = await Event.findByIdAndDelete(req.params.eventId);
     res.status(200).json(deletedEvent);
