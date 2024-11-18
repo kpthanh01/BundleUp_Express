@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Deal = require('../models/deal'); // Import the Deal model
+const Deal = require('../models/deal'); 
 
 const createDeal = async (req, res) => {
   try {
