@@ -9,9 +9,9 @@ router.use(verifyToken);
 
 router.post("/", async (req, res) => {
   try {
-    req.body.author = req.user._id;
+    // req.body.author = req.user._id;
     const event = await Event.create(req.body);
-    event._doc.author = req.user;
+    // event._doc.author = req.user;
     res.status(201).json(event);
   } catch (error) {
     console.log(error);
