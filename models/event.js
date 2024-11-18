@@ -2,8 +2,9 @@ const { Schema } = require("mongoose");
 
 const Event = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, ref: "user_id" },
-    contact: { type: Schema.Types.ObjectId, ref: "user_id" },
+    author_id: { type: Schema.Types.ObjectId, ref: "user_id" },
+    authorEmail: { type: Schema.Types.ObjectId, ref: "user_email" },
+    authorPhoneNumber: { type: Schema.Types.ObjectId, ref: "user_phoneNumber" },
     location: { type: String, required: true },
     startDate: { type: Date, required: true },
     startTime: { type: Date, required: true },
