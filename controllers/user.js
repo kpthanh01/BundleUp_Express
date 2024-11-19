@@ -10,22 +10,23 @@ const jwt = require("jsonwebtoken");
 const SALT_LENGTH = 12;
 
 router.post("/signup", async (req, res) => {
-  console.log(req.body);
   try {
     const userInDatabase = await User.findOne({ username: req.body.username });
     if (userInDatabase) {
       return res.json({ error: "Username already taken." });
     }
-    // const modifiedPassword = await bcrypt.hashSync(req.body.password, SALT_LENGTH)
+    const modifiedPassword = await bcrypt.hashSync(
+      req.body.password,
+      SALT_LENGTH
+    );
     const user = await User.create({
       username: req.body.username,
-      hashedPassword: bcrypt.hashSync(req.body.password, SALT_LENGTH),
+      hashedPassword: modifiedPassword,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       address: req.body.address,
       type: req.body.type,
     });
-    console.log(user);
     const token = jwt.sign(
       { username: user.username, _id: user._id },
       process.env.JWT_SECRET
@@ -37,9 +38,14 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/signin", async (req, res) => {
+  console.log(req.body);
   try {
-    const user = await User.find({ username: req.body.username });
-    if (user && bcrypt.compareSync(req.body.password, user.hashedPassword)) {
+    const user = await User.findOne({ username: req.body.username });
+    const password = await bcrypt.compareSync(
+      req.body.password,
+      user.hashedPassword
+    );
+    if (user && password) {
       const token = jwt.sign(
         { username: user.username, _id: user._id },
         process.env.JWT_SECRET
