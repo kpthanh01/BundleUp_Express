@@ -8,7 +8,7 @@ const Event = new Schema(
     startDateTime: { type: Date, required: true },
     endDateTime: { type: Date, required: true },
     description: { type: String, required: true },
-    rsvp: [{ type: String, enum: ["Attending", "Not Attending", "Maybe"] }],
+    isAttending: [{ type: Schema.Types.ObjectId, ref: "user_id" }],
     price: { type: Number },
     image: { type: String },
     numOfAttendees: { type: Number },
