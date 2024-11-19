@@ -10,6 +10,12 @@ const Event = mongoose.model("Event", EventSchema);
 const User = mongoose.model("User", UserSchema);
 const Deal = mongoose.model("Deal", DealSchema);
 
+UserSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+      delete returnedObject.hashedPassword
+  }
+})
+
 module.exports = {
   Event,
   Comment,

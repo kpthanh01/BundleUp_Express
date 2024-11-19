@@ -32,11 +32,5 @@ const User = new Schema({
         enum: ["Individual", "Vendor"]
     },
   })
-
-  User.set('toJSON', {
-    transform: (document, returnedObject) => {
-        delete returnedObject.hashedPassword
-    }
-})
   
 module.exports = User
