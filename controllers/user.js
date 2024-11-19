@@ -9,6 +9,16 @@ const jwt = require('jsonwebtoken')
 
 const SALT_LENGTH = 12;
 
+router.get('/sign-token', (req, res) => {
+    const user = {
+        _id: 1,
+        username: "test",
+        passsword: "test"
+    }
+    const token = jwt.sign({ user }, process.env.JWT_SECRET)
+    res.json({ token })
+})
+
 router.post('/signup', async (req, res) => {
     try {
         const userInDatabase = await User.findOne({ username: req.body.username })
