@@ -1,29 +1,18 @@
-const express = require("express");
-const router = express.Router();
-const bcrypt = require("bcrypt");
-const { User } = require("../models");
-const jwt = require("jsonwebtoken");
+const express = require("express")
+const router = express.Router()
+const bcrypt = require("bcrypt")
+const { User } = require("../models")
+const jwt = require("jsonwebtoken")
 
-// const verifyToken = require('../middlewares/verifyToken'); 
-// router.use(verifyToken);
+const verifyToken = require('../middlewares/verify-token')
 
 const SALT_LENGTH = 12;
 
-router.get('/sign-token', (req, res) => {
-    const user = {
-        _id: 1,
-        username: "test",
-        passsword: "test"
-    }
-    const token = jwt.sign({ user }, process.env.JWT_SECRET)
-    res.json({ token })
-})
-
 router.post("/signup", async (req, res) => {
   try {
-    const userInDatabase = await User.findOne({ username: req.body.username });
+    const userInDatabase = await User.findOne({ username: req.body.username })
     if (userInDatabase) {
-      return res.json({ error: "Username already taken." });
+      return res.json({ error: "Username already taken." })
     }
     const modifiedPassword = await bcrypt.hashSync( req.body.password, SALT_LENGTH)
     const user = await User.create({
@@ -33,15 +22,15 @@ router.post("/signup", async (req, res) => {
       phoneNumber: req.body.phoneNumber,
       address: req.body.address,
       type: req.body.type,
-    });
+    })
     const token = jwt.sign({ username: user.username, _id: user._id }, process.env.JWT_SECRET)
-    res.status(201).json({ user, token });
+    res.status(201).json({ user, token })
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message })
   }
 });
 
-router.post('/signin', async (req, res) => {
+router.post('/signin', verifyToken, async (req, res) => {
     console.log(req.body)
     try {
         const user = await User.findOne({ username: req.body.username })
