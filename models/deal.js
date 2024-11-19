@@ -34,6 +34,22 @@ const Deal = new Schema({
       ref: 'Comment', 
     },
   ],
+  title: {
+    type: String,
+    required: true,
+  },
+  original_price: {
+    type: Number,
+    required: true,
+  },
+  discount_price: {
+    type: Number,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: false,
+  },
 },
   { timestamps: true });
 
