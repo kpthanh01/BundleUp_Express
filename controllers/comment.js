@@ -4,7 +4,7 @@ const verifyToken = require('../middlewares/verify-token')
 const { Comment } = require('../models')
 
 // router.use(verifyToken);
-
+// Add all the CRUD features bellow
 router.get('/', async (req, res) => {
   try {
     const allComments = await Comment.find({})
