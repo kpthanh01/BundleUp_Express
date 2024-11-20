@@ -24,8 +24,7 @@ router.get('/:commentId', async (req, res) => {
     res.status(200).json(findComment)
   } catch (error) {
     if (res.statusCode === 404) {
-      res.json({ error: error.message }
-      )
+      res.json({ error: error.message })
     } else {
       res.status(500).json({ error: error.message })
     }
