@@ -30,7 +30,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post('/signin', verifyToken, async (req, res) => {
+router.post('/signin', async (req, res) => {
     console.log(req.body)
     try {
         const user = await User.findOne({ username: req.body.username })
@@ -47,7 +47,7 @@ router.post('/signin', verifyToken, async (req, res) => {
 })
 
 
-router.delete("/:userId", async (req, res) => {
+router.delete("/:userId", verifyToken, async (req, res) => {
     try {
         const deletedUser = await User.findByIdAndDelete(req.params.userId)
         const user = await User.findOne({ username: req.body.username })
@@ -62,7 +62,20 @@ router.delete("/:userId", async (req, res) => {
   }
 })
 
-router.put("/:userId", async (req, res) => {
+router.get("/:userId", verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    if (user) {
+      res.status(200).json(user)
+    } else {
+      res.status(401).json({ error: 'User not found.' })
+    }
+  } catch {
+    res.status(400).json({ error: error.message })
+  }
+})
+
+router.put("/:userId", verifyToken, async (req, res) => {
     try {
         const updatedUser = await User.findByIdAndUpdate(
           req.params.userId,
