@@ -5,10 +5,10 @@ const cors = require("cors");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const db = require("./db");
-const eventsRouter = require("./controllers/event");
-const userRouter = require("./controllers/user")
-const commentRouter = require('./controllers/comment')
-const dealRouter = require('./controllers/deal')
+const eventsRouter = require("./controllers/events");
+const userRouter = require("./controllers/users")
+const commentRouter = require('./controllers/comments')
+const dealRouter = require('./controllers/deals')
 const PORT = process.env.PORT || 3001;
 const app = express();
 
