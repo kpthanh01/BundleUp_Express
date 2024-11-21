@@ -1,12 +1,3 @@
-# BundleUp
+# BundleUp Backend
 
-# Dependencies
-- bcrypt
-- body-parser
-- cors
-- dotenv
-- express
-- jsonwebtoken
-- mongoose
-- morgan
-- nodemon
+## Please see the full readme here: https://github.com/kpthanh01/BundleUp_React
