@@ -18,13 +18,14 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 
 // Add the Routers belows
-app.use('/', (req, res) => {
-  res.send("Bundle Express App")
-})
 app.use('/comments', commentRouter)
 app.use("/events", eventsRouter);
 app.use("/users", userRouter)
 app.use("/deals", dealRouter);
+
+app.use('/', (req, res) => {
+  res.send("Bundle Express App")
+})
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
