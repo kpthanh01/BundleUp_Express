@@ -3,17 +3,6 @@ const router = express.Router();
 const { Deal } = require('../models');
 const verifyToken = require('../middlewares/verify-token');
 
-router.use(verifyToken);
-
-router.post('/', async (req, res) => {
-  try {
-    const deal = await Deal.create(req.body);
-    res.status(201).json(deal);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to create deal', error: error.message });
-  }
-});
-
 
 router.get('/', async (req, res) => {
   try {
@@ -35,6 +24,19 @@ router.get('/:dealId', async (req, res) => {
     res.status(200).json(deal);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch deal', error: error.message });
+  }
+});
+
+// Protected Routes
+
+router.use(verifyToken);
+
+router.post('/', async (req, res) => {
+  try {
+    const deal = await Deal.create(req.body);
+    res.status(201).json(deal);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create deal', error: error.message });
   }
 });
 
