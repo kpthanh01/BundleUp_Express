@@ -31,9 +31,9 @@ router.use(verifyToken);
 
 router.post("/", async (req, res) => {
   try {
-    // req.body.author = req.user._id;
+    req.body.author = req.user._id;
     const event = await Event.create(req.body);
-    // event._doc.author = req.user;
+    event._doc.author = req.user;
     res.status(201).json(event);
   } catch (error) {
     console.log(error);
@@ -41,23 +41,15 @@ router.post("/", async (req, res) => {
   }
 });
 
-
-
 router.put("/:eventId", async (req, res) => {
   try {
     const event = await Event.findById(req.params.eventId);
-
-    // if (!event.author.equals(req.user._id)) {
-    //   return res.status(403).send(`You're not allowed to do that!`);
-    // }
 
     const updatedEvent = await Event.findByIdAndUpdate(
       req.params.eventId,
       req.body,
       { new: true }
     );
-
-    // updatedEvent._doc.author = req.user;
 
     res.status(200).json(updatedEvent);
   } catch (error) {
@@ -68,10 +60,6 @@ router.put("/:eventId", async (req, res) => {
 router.delete("/:eventId", async (req, res) => {
   try {
     const event = await Event.findById(req.params.eventId);
-
-    // if (!event.author.equals(req.user._id)) {
-    //   return res.status(403).send(`You're not allowed to do that!`);
-    // }
 
     const deletedEvent = await Event.findByIdAndDelete(req.params.eventId);
     res.status(200).json(deletedEvent);
