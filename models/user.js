@@ -22,7 +22,10 @@ const User = new Schema({
     type: String,
     required: true,
   },
-  joinedEvents: [{ type: Schema.Types.ObjectId, ref: "event_id" }],
+  joinedEvents: {
+    type: Array,
+    required: false,
+  },
   type: {
     type: String,
     required: true,
