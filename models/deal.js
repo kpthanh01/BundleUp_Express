@@ -3,7 +3,6 @@ const { Schema } = require('mongoose');
 const Deal = new Schema({
   author: {
     type: Schema.Types.ObjectId, 
-    required: true, 
     ref: 'User', 
   },
   description: {
@@ -12,7 +11,7 @@ const Deal = new Schema({
   },
   bundle_number: {
     type: Number,
-    required: true,
+    required: false,
   },
   timestamp: {
     type: Date,
@@ -20,7 +19,7 @@ const Deal = new Schema({
   },
   category: {
     type: String,
-    required: false,
+    required: true,
   },
   joined_users: [
     {

@@ -1,23 +1,7 @@
 const express = require("express");
 const verifyToken = require("../middlewares/verify-token.js");
 const router = express.Router();
-//import the model
 const { Event } = require("../models");
-
-// Add all the CRUD features bellow
-// router.use(verifyToken);
-
-router.post("/", async (req, res) => {
-  try {
-    // req.body.author = req.user._id;
-    const event = await Event.create(req.body);
-    // event._doc.author = req.user;
-    res.status(201).json(event);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
-  }
-});
 
 router.get("/", async (req, res) => {
   try {
@@ -40,6 +24,24 @@ router.get("/:eventId", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+// Protected Routes
+
+router.use(verifyToken);
+
+router.post("/", async (req, res) => {
+  try {
+    // req.body.author = req.user._id;
+    const event = await Event.create(req.body);
+    // event._doc.author = req.user;
+    res.status(201).json(event);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
+
 
 router.put("/:eventId", async (req, res) => {
   try {
